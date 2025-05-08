@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -11,55 +10,96 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,700;0,900;1,400&family=Poppins:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="To-do.css" />
 </head>
-
-<body>
+<body class="light-theme">
+    <div class="background-particles" id="particles"></div>
     <main class="app">
-        <section class="greeting">
+        <div class="theme-toggle" id="theme-toggle" role="button" aria-label="Toggle theme" title="Toggle light/dark theme">
+            <span class="sun">☀️</span>
+            <span class="moon">🌙</span>
+        </div>
+        <section class="greeting" aria-label="User greeting">
             <h2 class="title">
-                What's up, <input type="text" id="name" placeholder="Name here">
+                What's up, <input type="text" id="name" placeholder="Name here" aria-label="Enter your name">
             </h2>
         </section>
-        <section class="create-todo">
+        <section class="create-todo" aria-label="Create new todo">
             <h3>Create a ToDo</h3>
             <form id="new-todo-form">
-                <h4>What's on your ToDo List? </h4>
-                <input type="text" name="content" id="content" placeholder="e.g. Submit an Assignment" />
-                <h4>Pick a category</h4>
-                <div class="options">
-                    <label>
-                        <input type="radio" name="category" id="category1" value="business" />
-                        <span class="bubble business"></span>
-                        <div>Business</div>
-                    </label>
-                    <label>
-                        <input type="radio" name="category" id="category2" value="personal" />
-                        <span class="bubble personal"></span>
-                        <div>Personal</div>
-                    </label>
+                <div class="search-container">
+                    <input type="text" id="search" placeholder="Search todos..." aria-label="Search todos">
                 </div>
-                <input type="submit" value="Add ToDo" />
-            </form>
-        </section>
-        <section class="todo-list">
-            <h3>TODO LIST</h3>
-            <div class="list" id="todo-list">
-                <div class="todo-item done">
-                    <label>
-                        <input type="checkbox" />
-                        <span class="bubble business"></span>
-                    </label>
-                </div>
-                <div class="todo-item">
-                    <label>
-                        <input type="checkbox" />
-                        <span class="bubble personal"></span>
-                    </label>
+                <h4>What's on your ToDo List?</h4>
+                <input type="text" name="content" id="content" placeholder="e.g. Submit an Assignment" required aria-label="Todo content" />
+                <div class="form-row">
+                    <div class="form-group">
+                        <h4>Pick a category</h4>
+                        <div class="options">
+                            <label>
+                                <input type="radio" name="category" id="category1" value="business" checked />
+                                <span class="bubble business"><i class="icon">💼</i></span>
+                                <div>Business</div>
+                            </label>
+                            <label>
+                                <input type="radio" name="category" id="category2" value="personal" />
+                                <span class="bubble personal"><i class="icon">🏠</i></span>
+                                <div>Personal</div>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <h4>Priority</h4>
+                        <select name="priority" id="priority" aria-label="Select priority">
+                            <option value="low">Low</option>
+                            <option value="medium">Medium</option>
+                            <option value="high">High</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <h4>Due Date</h4>
+                        <input type="date" name="dueDate" id="dueDate" aria-label="Select due date" />
                     </div>
                 </div>
+                <input type="submit" value="Add ToDo" aria-label="Add new todo" />
+            </form>
+        </section>
+        <section class="todo-list" aria-label="Todo list">
+            <div class="todo-header">
+                <h3>TODO LIST</h3>
+                <div class="todo-controls">
+                    <button id="mark-all" title="Toggle all todos completion" aria-label="Mark all todos">Mark All</button>
+                    <button id="bulk-select" title="Enable bulk selection" aria-label="Enable bulk selection">Select</button>
+                    <select id="filter-category" title="Filter todos by category" aria-label="Filter by category">
+                        <option value="all">All</option>
+                        <option value="business">Business</option>
+                        <option value="personal">Personal</option>
+                    </select>
+                    <button id="clear-completed" title="Remove all completed todos" aria-label="Clear completed">Clear Completed</button>
+                </div>
+            </div>
+            <div class="tabs">
+                <button class="tab active" data-tab="all" aria-label="Show all todos">All <span class="badge" id="all-count">0</span></button>
+                <button class="tab" data-tab="active" aria-label="Show active todos">Active <span class="badge" id="active-count">0</span></button>
+                <button class="tab" data-tab="completed" aria-label="Show completed todos">Completed <span class="badge" id="completed-count">0</span></button>
+            </div>
+            <div class="todo-stats">
+                <span id="todo-count">0 items left</span>
+                <div class="progress-circle" id="progress-circle" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                    <svg viewBox="0 0 100 100">
+                        <circle class="progress-bg" cx="50" cy="50" r="45" />
+                        <circle class="progress-fill" cx="50" cy="50" r="45" />
+                    </svg>
+                    <span class="progress-text">0%</span>
+                </div>
+            </div>
+            <div class="list" id="todo-list" role="list"></div>
+            <div class="empty-state" id="empty-state" style="display: none;">
+                <div class="empty-illustration">📝</div>
+                <p>No todos yet! Add some tasks above to get started.</p>
             </div>
         </section>
+        <div class="toast" id="toast" role="alert"></div>
     </main>
+    <audio id="action-sound" src="https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3"></audio>
     <script src="To-do.js"></script>
 </body>
-
 </html>
