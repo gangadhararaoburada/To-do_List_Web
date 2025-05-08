@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.setItem('todos', JSON.stringify(todos));
         e.target.reset();
         document.querySelector('#category1').checked = true;
-        showToast('Todo added successfully', 'success');
+        showToast('Task added successfully', 'success');
         playSound();
         displayTodos();
     });
@@ -74,7 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
             deletedTodos = todos.filter(todo => todo.done);
             todos = todos.filter(todo => !todo.done);
             localStorage.setItem('todos', JSON.stringify(todos));
-            showToast('Completed todos cleared <button onclick="undoDelete()">Undo</button>', 'success');
+            showToast('Completed tasks cleared <button onclick="undoDelete()">Undo</button>', 'success');
             playSound();
             displayTodos();
         }
@@ -84,7 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const allDone = todos.every(todo => todo.done);
         todos = todos.map(todo => ({ ...todo, done: !allDone }));
         localStorage.setItem('todos', JSON.stringify(todos));
-        showToast(allDone ? 'All todos marked incomplete' : 'All todos marked complete', 'success');
+        showToast(allDone ? 'All tasks marked incomplete' : 'All tasks marked complete', 'success');
         playSound();
         displayTodos();
     });
@@ -95,7 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
         selectedTodos.clear();
         displayTodos();
         if (isBulkSelecting) {
-            showToast('Select todos for bulk actions', 'info');
+            showToast('Select tasks for bulk actions', 'info');
         }
     });
 
@@ -152,7 +152,7 @@ document.addEventListener('DOMContentLoaded', () => {
         todos.splice(dropIndex, 0, draggedTodo);
         
         localStorage.setItem('todos', JSON.stringify(todos));
-        showToast('Todo reordered', 'success');
+        showToast('Task reordered', 'success');
         playSound();
         displayTodos();
     });
@@ -351,7 +351,7 @@ function displayTodos() {
             input.addEventListener('click', (e) => {
                 todo.done = e.target.checked;
                 localStorage.setItem('todos', JSON.stringify(todos));
-                showToast(todo.done ? 'Todo marked complete' : 'Todo marked incomplete', 'success');
+                showToast(todo.done ? 'Task marked complete' : 'Task marked incomplete', 'success');
                 playSound();
                 displayTodos();
             });
@@ -367,11 +367,11 @@ function displayTodos() {
                     if (newContent) {
                         todo.content = newContent;
                         localStorage.setItem('todos', JSON.stringify(todos));
-                        showToast('Todo updated successfully', 'success');
+                        showToast('Task updated successfully', 'success');
                         playSound();
                         displayTodos();
                     } else {
-                        showToast('Todo content cannot be empty', 'error');
+                        showToast('Task content cannot be empty', 'error');
                     }
                 });
 
@@ -387,7 +387,7 @@ function displayTodos() {
                     deletedTodos = [todo];
                     todos = todos.filter((t) => t !== todo);
                     localStorage.setItem('todos', JSON.stringify(todos));
-                    showToast('Todo deleted <button onclick="undoDelete()">Undo</button>', 'success');
+                    showToast('Task deleted <button onclick="undoDelete()">Undo</button>', 'success');
                     playSound();
                     displayTodos();
                 }
